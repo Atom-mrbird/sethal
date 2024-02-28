@@ -1,26 +1,20 @@
-<!--A Design by W3layouts
-Author: W3layout
-Author URL: http://w3layouts.com
-License: Creative Commons Attribution 3.0 Unported
-License URL: http://creativecommons.org/licenses/by/3.0/
--->
 {% load static %}
 <!DOCTYPE HTML>
 <html lang="en">
 <head>
-<title>Free Snow Bootstrap Website Template | Home :: w3layouts</title>
-<link href="{% static "/templates/static/css/bootstrap.css" %}" rel='stylesheet' type='text/css' />
-<link href="{% static "/templates/static/css/style.css"%}" rel='stylesheet' type='text/css' />
+<title></title>
+<link href="{% static "css/bootstrap.css" %}" rel='stylesheet' type='text/css'/>
+<link href="{% static "css/style.css" %}" rel='stylesheet' type='text/css'/>
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700,800' rel='stylesheet' type='text/css'>
 <script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
-<script src="{% static "/templates/static/js/jquery.min.js" %}"></script>
+<script src="{% static '/js/jquery.min.js' %}"></script>
 <!--<script src="js/jquery.easydropdown.js"></script>-->
 <!--start slider -->
-<link rel="stylesheet" href="{% static "/templates/static/css/fwslider.css"%}" media="all">
-<script src="{% static "/templates/static/js/jquery-ui.min.js"%}"></script>
-<script src="{% static "/templates/static/js/fwslider.js"%}"></script>
+<link rel="stylesheet" href="{% static '/css/fwslider.css' %}" media="all"/>
+<script src="{% static '/js/jquery-ui.min.js'%}"></script>
+<script src="{% static '/js/fwslider.js'%}"></script>
 <!--end slider -->
 <script type="text/javascript">
         $(document).ready(function() {
@@ -55,26 +49,24 @@ License URL: http://creativecommons.org/licenses/by/3.0/
      </script>
 </head>
 <body>
+
 	<div class="header">
 		<div class="container">
 			<div class="row">
 			  <div class="col-md-12">
 				 <div class="header-left">
 					 <div class="logo">
-						<a href="{% url 'index'%}"><img src="static/images/logo.png" alt=""/></a>
+						<a href="{% url 'index'%}"><img src="../accounts/static/images/logo.png" alt=""/></a>
 					 </div>
 					 <div class="menu">
-						  <a class="toggleMenu" href="#"><img src="static/images/nav.png" alt="" /></a>
+						  <a class="toggleMenu" href="#"><img src="../accounts/static/images/nav.png" alt="" /></a>
 						    <ul class="nav" id="nav">
 						    	<li><a href="shop.html">Shop</a></li>
-						    	<li><a href="team.html">Team</a></li>
-						    	<li><a href="experiance.html">Events</a></li>
-						    	<li><a href="experiance.html">Experiance</a></li>
-						    	<li><a href="shop.html">Company</a></li>
+						    	<li><a href="team.html">Collection</a></li>
 								<li><a href="contact.html">Contact</a></li>								
 								<div class="clear"></div>
 							</ul>
-							<script type="text/javascript" src="{% static "/templates/static/js/responsive-nav.js" %}"></script>
+							<script type="text/javascript" src="{% static '/js/responsive-nav.js' %}"></script>
 				    </div>							
 	    		    <div class="clear"></div>
 	    	    </div>
@@ -90,8 +82,8 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 							</div>
 						</div>
 						<!----search-scripts---->
-						<script src="{% static '/templates/static/js/classie.js'%}"></script>
-						<script src="{% static '/templates/static/js/uisearch.js'%}"></script>
+						<script src="{% static '/js/classie.js'%}"></script>
+						<script src="{% static '/js/uisearch.js'%}"></script>
 						<script>
 							new UISearch( document.getElementById( 'sb-search' ) );
 						</script>
@@ -100,32 +92,33 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 					 <li><a class="active-icon c1" href="#"> </a>
 						<ul class="sub-icon1 list">
 						  <div class="product_control_buttons">
-						  	<a href="#"><img src="static/images/edit.png" alt=""/></a>
-						  		<a href="#"><img src="static/images/close_edit.png" alt=""/></a>
+						  	<a href="#"><img src="" alt=""/></a>
+						  		<a href="#"><img src="" alt=""/></a>
 						  </div>
 						   <div class="clear"></div>
-						  <li class="list_img"><img src="static/images/1.jpg" alt=""/></li>
-						  <li class="list_desc"><h4><a href="#">velit esse molestie</a></h4><span class="actual">1 x
+						  <li class="list_img"><img src="" alt=""/></li>
+						  <li class="list_desc"><h4><a href="#"></a></h4><span class="actual">1 x
                           $12.00</span></li>
 						  <div class="login_buttons">
-{% block title %}Home{% endblock %}
-{% load static %}
-{% block content %}
-{% if user.is_authenticated %}
-<p>Hi {{ user.username }}!</p>
-<p><a href="{% url 'password_change' %}">Password Change</a></p>
+                                  {% csrf_token %}
+                                  {% if user.is_authenticated %}
+                                  <p>Hi {{ user.username }}!</p>
+							 <p><a href="{% url 'password_change' %}">Password Change</a></p>
 <form action="{% url 'logout' %}" method="post">
   {% csrf_token %}
   <button type="submit">Log Out</button>
 </form>
 {% else %}
-<p>You are not logged in</p>
+                                      <p>You are not logged in</p>
 <p><a href="{% url 'password_reset' %}">Password Reset</a></p>
 <p><a href="{% url 'login' %}">Log In</a></p>
-
-							 <div class="check_button"><a href="checkout.html">Check out</a></div>
-							 <div class="login_button"><a href="{% url 'login' %}">Login</a></div>
+{% endif %}
 							 <div class="clear"></div>
+                          <form action="{% url 'signup' %}" method="post">
+  {% csrf_token %}
+  {{ form }}
+  <button type="submit">Sign Up</button>
+</form>
 						  </div>
 						  <div class="clear"></div>
 						</ul>
@@ -143,13 +136,13 @@ License URL: http://creativecommons.org/licenses/by/3.0/
          <div class="slider_container">
             <div class="slide"> 
                 <!-- Slide image -->
-               <img src="static/images/slider1.jpg" class="img-responsive" alt=""/>
+               <img src="" class="img-responsive" alt=""/>
                 <!-- /Slide image -->
                 <!-- Texts container -->
                 <div class="slide_content">
                     <div class="slide_content_wrap">
                         <!-- Text title -->
-                        <h1 class="title">Run Over<br>Everything</h1>
+                        <h1 class="title"><br></h1>
                         <!-- /Text title -->
                         <div class="button"><a href="#">See Details</a></div>
                     </div>
@@ -158,17 +151,16 @@ License URL: http://creativecommons.org/licenses/by/3.0/
             </div>
             <!-- /Duplicate to create more slides -->
             <div class="slide">
-               <img src="static/images/slider2.jpg" class="img-responsive" alt=""/>
+               <img src="" class="img-responsive" alt=""/>
                 <div class="slide_content">
                     <div class="slide_content_wrap">
-                        <h1 class="title">Run Over<br>Everything</h1>
+                        <h1 class="title"><br></h1>
                        	<div class="button"><a href="#">See Details</a></div>
                     </div>
                 </div>
             </div>
             <!--/slide -->
         </div>
-        <div class="timers"></div>
         <div class="slidePrev"><span></span></div>
         <div class="slideNext"><span></span></div>
        </div>
@@ -176,17 +168,17 @@ License URL: http://creativecommons.org/licenses/by/3.0/
       </div>
 	  <div class="main">
 		<div class="content-top">
-			<h2>snowboards</h2>
-			<p>hendrerit in vulputate velit esse molestie consequat, vel illum dolore</p>
+			<h2>something</h2>
+			<p></p>
 			<div class="close_but"><i class="close1"> </i></div>
 				<ul id="flexiselDemo3">
-				<li><img src="{% static "static/images/board1.jpg"%}" /></li>
-				<li><img src="{% static "static/images/board2.jpg"%}" /></li>
-				<li><img src="{% static "static/images/board3.jpg"%}" /></li>
-				<li><img src="{% static "static/images/board4.jpg"%}" /></li>
-				<li><img src="{% static "static/images/board5.jpg"%}" /></li>
+				<li><img src="{% static ""%}" /></li>
+				<li><img src="{% static ""%}" /></li>
+				<li><img src="{% static ""%}" /></li>
+				<li><img src="{% static ""%}" /></li>
+				<li><img src="{% static ""%}" /></li>
 			</ul>
-		<h3>SnowBoard Extreme Series</h3>
+		<h3></h3>
 			<script type="text/javascript">
 		$(window).load(function() {
 			$("#flexiselDemo3").flexisel({
@@ -214,16 +206,16 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 		    
 		});
 		</script>
-		<script type="text/javascript" src="{% static "/templates/static/js/jquery.flexisel.js" %}"></script>
+		<script type="text/javascript" src="{% static "/js/jquery.flexisel.js" %}"></script>
 		</div>
 	</div>
 	<div class="content-bottom">
 		<div class="container">
 			<div class="row content_bottom-text">
 			  <div class="col-md-7">
-				<h3>The Mountains<br>Snowboarding</h3>
-				<p class="m_1">Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio.</p>
-				<p class="m_2">Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio.</p>
+				<h3><br></h3>
+				<p class="m_1"></p>
+				<p class="m_2"></p>
 			  </div>
 			</div>
 		</div>
@@ -235,56 +227,56 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 			  <div class="row">
 				<div class="col-md-3 top_box">
 				  <div class="view view-ninth"><a href="single.html">
-                    <img src="static/images/pic1.jpg" class="img-responsive" alt=""/>
+                    <img src="" class="img-responsive" alt=""/>
                     <div class="mask mask-1"> </div>
                     <div class="mask mask-2"> </div>
                       <div class="content">
-                        <h2>Hover Style #9</h2>
-                        <p>Lorem ipsum dolor sit amet, consectetuer adipiscing.</p>
+                        <h2></h2>
+                        <p></p>
                       </div>
                    </a> </div>
                   </div>
-                  <h4 class="m_4"><a href="#">nostrud exerci ullamcorper</a></h4>
-                  <p class="m_5">claritatem insitam</p>
+                  <h4 class="m_4"><a href="#"></a></h4>
+                  <p class="m_5"></p>
                 </div>
                 <div class="col-md-3 top_box">
 					<div class="view view-ninth"><a href="single.html">
-                    <img src="static/images/pic2.jpg" class="img-responsive" alt=""/>
+                    <img src="" class="img-responsive" alt=""/>
                     <div class="mask mask-1"> </div>
                     <div class="mask mask-2"> </div>
                       <div class="content">
-                        <h2>Hover Style #9</h2>
-                        <p>Lorem ipsum dolor sit amet, consectetuer adipiscing.</p>
+                        <h2></h2>
+                        <p></p>
                       </div>
                     </a> </div>
-                   <h4 class="m_4"><a href="#">nostrud exerci ullamcorper</a></h4>
-                   <p class="m_5">claritatem insitam</p>
+                   <h4 class="m_4"><a href="#"></a></h4>
+                   <p class="m_5"></p>
 				</div>
 				<div class="col-md-3 top_box">
 					<div class="view view-ninth"><a href="single.html">
-                    <img src="static/images/pic3.jpg" class="img-responsive" alt=""/>
+                    <img src="" class="img-responsive" alt=""/>
                     <div class="mask mask-1"> </div>
                     <div class="mask mask-2"> </div>
                       <div class="content">
-                        <h2>Hover Style #9</h2>
-                        <p>Lorem ipsum dolor sit amet, consectetuer adipiscing.</p>
+                        <h2></h2>
+                        <p></p>
                       </div>
                     </a> </div>
-                   <h4 class="m_4"><a href="#">nostrud exerci ullamcorper</a></h4>
-                   <p class="m_5">claritatem insitam</p>
+                   <h4 class="m_4"><a href="#"></a></h4>
+                   <p class="m_5"></p>
 				</div>
 				<div class="col-md-3 top_box1">
 					<div class="view view-ninth"><a href="single.html">
-                    <img src="static/images/pic4.jpg" class="img-responsive" alt=""/>
+                    <img src="" class="img-responsive" alt=""/>
                     <div class="mask mask-1"> </div>
                     <div class="mask mask-2"> </div>
                       <div class="content">
-                        <h2>Hover Style #9</h2>
-                        <p>Lorem ipsum dolor sit amet, consectetuer adipiscing.</p>
+                        <h2></h2>
+                        <p></p>
                       </div>
                      </a> </div>
-                   <h4 class="m_4"><a href="#">nostrud exerci ullamcorper</a></h4>
-                   <p class="m_5">claritatem insitam</p>
+                   <h4 class="m_4"><a href="#"></a></h4>
+                   <p class="m_5"></p>
 				</div>
 			</div>
 		 </div>
@@ -302,21 +294,10 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 					</div>
 					<div class="col-md-3">
 						<ul class="footer_box">
-							<h4>About</h4>
-							<li><a href="#">Careers and internships</a></li>
-							<li><a href="#">Sponserships</a></li>
-							<li><a href="#">team</a></li>
-							<li><a href="#">Catalog Request/Download</a></li>
-						</ul>
-					</div>
-					<div class="col-md-3">
-						<ul class="footer_box">
 							<h4>Customer Support</h4>
 							<li><a href="#">Contact Us</a></li>
 							<li><a href="#">Shipping and Order Tracking</a></li>
 							<li><a href="#">Easy Returns</a></li>
-							<li><a href="#">Warranty</a></li>
-							<li><a href="#">Replacement Binding Parts</a></li>
 						</ul>
 					</div>
 					<div class="col-md-3">
@@ -328,38 +309,25 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 				    			<input type="submit" value="Go">
 				    		   </form>
 					        </div>
-							<ul class="social">	
-							  <li class="facebook"><a href="#"><span> </span></a></li>
-							  <li class="twitter"><a href="#"><span> </span></a></li>
-							  <li class="instagram"><a href="#"><span> </span></a></li>	
-							  <li class="pinterest"><a href="#"><span> </span></a></li>	
-							  <li class="youtube"><a href="#"><span> </span></a></li>										  				
-						    </ul>
-		   					
 						</ul>
 					</div>
 				</div>
 				<div class="row footer_bottom">
-				    <div class="copy">
-			           <p>© 2014 Template by <a href="http://w3layouts.com" target="_blank">w3layouts</a></p>
-		            </div>
 					  <dl id="sample" class="dropdown">
 				        <dt><a href="#"><span>Change Region</span></a></dt>
 				        <dd>
 				            <ul>
-				                <li><a href="#">Australia<img class="flag" src="static/images/as.png" alt="" /><span class="value">AS</span></a></li>
-				                <li><a href="#">Sri Lanka<img class="flag" src="static/images/srl.png" alt="" /><span class="value">SL</span></a></li>
-				                <li><a href="#">Newziland<img class="flag" src="static/images/nz.png" alt="" /><span class="value">NZ</span></a></li>
-				                <li><a href="#">Pakistan<img class="flag" src="static/images/pk.png" alt="" /><span class="value">Pk</span></a></li>
-				                <li><a href="#">United Kingdom<img class="flag" src="static/images/uk.png" alt="" /><span class="value">UK</span></a></li>
-				                <li><a href="#">United States<img class="flag" src="static/images/us.png" alt="" /><span class="value">US</span></a></li>
+				                <li><a href="#">Australia<img class="flag" src="../accounts/static/images/as.png" alt="" /><span class="value">AS</span></a></li>
+				                <li><a href="#">Sri Lanka<img class="flag" src="../accounts/static/images/srl.png" alt="" /><span class="value">SL</span></a></li>
+				                <li><a href="#">Newziland<img class="flag" src="../accounts/static/images/nz.png" alt="" /><span class="value">NZ</span></a></li>
+				                <li><a href="#">Pakistan<img class="flag" src="../accounts/static/images/pk.png" alt="" /><span class="value">Pk</span></a></li>
+				                <li><a href="#">United Kingdom<img class="flag" src="../accounts/static/images/uk.png" alt="" /><span class="value">UK</span></a></li>
+				                <li><a href="#">United States<img class="flag" src="../accounts/static/images/us.png" alt="" /><span class="value">US</span></a></li>
 				            </ul>
 				         </dd>
 	   				  </dl>
    				</div>
 			</div>
 		</div>
-{% endif %}
-{% endblock %}
 </body>	
 </html>
