@@ -12,11 +12,20 @@ class Profile(models.Model):
 
 @receiver(post_save, sender=User)
 def update_user_profile(sender, instance, created, **kwargs):
-    if created:
-        Profile.objects.create(user=instance)
-        instance.profile.save()
+    # if created:
+    #     Profile.objects.create(user=instance)
+    # instance.profile.save()
 
     try:
         instance.profile.save()
     except ObjectDoesNotExist:
         Profile.objects.create(user=instance)
+class Address(models.Model):
+    name = models.CharField(max_length=255)
+    address = models.CharField(max_length=255)
+    city = models.CharField(max_length=255)
+    state = models.CharField(max_length=255)
+    zip_code = models.CharField(max_length=20)
+
+    def __str__(self):
+        return f"{self.name},{self.address}, {self.city}, {self.state}, {self.zip_code}"
