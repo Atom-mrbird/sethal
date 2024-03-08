@@ -59,6 +59,7 @@ def verify_email_confirm(request, uidb64, token):
 
 
 def verify_email_complete(request):
+    return redirect('login')
     return render(request, 'registration/verify_email_complete.html')
 
 
