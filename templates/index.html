@@ -102,7 +102,7 @@
 						  <div class="login_buttons">
                                   {% csrf_token %}
                                   {% if user.is_authenticated %}
-                                  <p>Hi {{ user.username }}!</p>
+                                  <p>Hi {{ user.email }}!</p>
 							 <p><a href="{% url 'password_change' %}">Password Change</a></p>
 <form action="{% url 'logout' %}" method="post">
   {% csrf_token %}

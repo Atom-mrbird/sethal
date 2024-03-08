@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'crispy_forms',
     'accounts',
+    'user',
 ]
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 MIDDLEWARE = [
@@ -72,7 +73,7 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'sethal.wsgi.application'
 
-
+AUTH_USER_MODEL = 'user.CustomUser'
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
@@ -129,11 +130,12 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 LOGIN_REDIRECT_URL = "index"  # new
 LOGOUT_REDIRECT_URL = "index"  # new
 
+
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 
 EMAIL_HOST = "smtp.gmail.com"
-EMAIL_HOST_USER = "ataberkyakar@gmail.com"
-EMAIL_HOST_PASSWORD = ""
+EMAIL_HOST_USER = "radarlens.adm@gmail.com"
+EMAIL_HOST_PASSWORD = "epuxjiptbijrmbln"
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-DEFAULT_FROM_EMAIL = "Sethal ataberkyakar@gmail.com"
+DEFAULT_FROM_EMAIL = "Sethal radarlens.adm@gmail.com"
