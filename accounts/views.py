@@ -6,6 +6,10 @@ from user.forms import UserRegisterForm
 
 def ShopView(request):
     return render(request, 'shop.html')
+def AboutView(request):
+    return render(request, 'team.html')
+def ContactView(request):
+    return render(request, 'contact.html')
 def addressview(request):
     if request.method == 'POST':
         form = AddressForm(request.POST)
