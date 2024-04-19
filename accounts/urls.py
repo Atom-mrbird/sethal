@@ -8,4 +8,5 @@ urlpatterns = [
     path("contact/", ContactView, name="contact"),
     path("address/", addressview, name="address"),
     path("user/", include("user.urls")),
+    path("shoppingcart/", include("shoppingcart.urls")),
 ]

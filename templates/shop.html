@@ -65,22 +65,6 @@
 	    		    <div class="clear"></div>
 	    	    </div>
 	            <div class="header_right">
-	    		  <!-- start search-->
-				  <div class="search-box">
-							<div id="sb-search" class="sb-search">
-								<form>
-									<input class="sb-search-input" placeholder="Enter your search term..." type="search" name="search" id="search">
-									<input class="sb-search-submit" type="submit" value="">
-									<span class="sb-icon-search"> </span>
-								</form>
-							</div>
-						</div>
-						<!----search-scripts---->
-						<script src="../accounts/static/js/classie.js"></script>
-						<script src="../accounts/static/js/uisearch.js"></script>
-						<script>
-							new UISearch( document.getElementById( 'sb-search' ) );
-						</script>
 				    <ul class="icon1 sub-icon1 profile_img">
 					 <li><a class="active-icon c1" href="#"> </a>
 						<ul class="sub-icon1 list">
@@ -90,12 +74,27 @@
 						  </div>
 						   <div class="clear"></div>
 						  <li class="list_img"><img src="../accounts/static/images/1.jpg" alt=""/></li>
-						  <li class="list_desc"><h4><a href="#">velit esse molestie</a></h4><span class="actual">1 x
-                          $12.00</span></li>
-						  <div class="login_buttons">
-							 <div class="check_button"><a href="checkout.html">Check out</a></div>
-							 <div class="login_button"><a href="login.html">Login</a></div>
+						  <li class="list_desc"><h4><a href="#"></a></h4><span class="actual"></span></li>
+						  						  <div class="login_buttons">
+                                  {% csrf_token %}
+                                  {% if user.is_authenticated %}
+                                  <p>Hi {{ user.email }}!</p>
+							 <p><a href="{% url 'password_change' %}">Password Change</a></p>
+<form action="{% url 'logout' %}" method="post">
+  {% csrf_token %}
+  <button type="submit">Log Out</button>
+</form>
+{% else %}
+                                      <p>You are not logged in</p>
+<p><a href="{% url 'password_reset' %}">Password Reset</a></p>
+<p><a href="{% url 'login' %}">Log In</a></p>
+{% endif %}
 							 <div class="clear"></div>
+                          <form action="{% url 'signup' %}" method="post">
+  {% csrf_token %}
+  {{ form }}
+  <button type="submit">Sign Up</button>
+</form>
 						  </div>
 						  <div class="clear"></div>
 						</ul>
@@ -125,7 +124,7 @@
 						<span class="reducedfrom">$66.00</span>
 						<span class="actual">$12.00</span><br>
 						<ul class="buttons">
-							<li class="cart"><a href="#">Add To Cart</a></li>
+							<li class="cart"><a href="">Add To Cart</a></li>
 							<li class="shop_btn"><a href="#">Read More</a></li>
 							<div class="clear"> </div>
 					    </ul>
@@ -168,7 +167,7 @@
 				    </div>
 				</a></div>
 				<div class="col-md-3 shop_box"><a href="single.html">
-					<img src="{% static 'images/pic8.jpg'%}" class="img-responsive" alt=""/>
+					<img src="images/pic8.jpg" class="img-responsive" alt=""/>
 					<span class="new-box">
 						<span class="new-label">New</span>
 					</span>

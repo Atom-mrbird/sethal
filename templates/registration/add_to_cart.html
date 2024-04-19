@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+{% extends "registration/base.html" %}
+
+{% block content %}    
+    {{ message }}
+
+    <form method="post">
+        {% csrf_token %}
+        <input type="submit" value="Add to Cart">
+    </form>
+{% endblock %}
+
+</body>
+</html>

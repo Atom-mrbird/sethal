@@ -3,7 +3,6 @@ from django.contrib.auth import login, authenticate
 from .forms import AddressForm
 from user.forms import UserRegisterForm
 
-
 def ShopView(request):
     return render(request, 'shop.html')
 def AboutView(request):
