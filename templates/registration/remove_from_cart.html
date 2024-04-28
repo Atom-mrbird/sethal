@@ -1,12 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
-
-{% extends "registration/base.html" %}
+{% extends "shop.html" %}
 {% block content %}
    
     {{ message }}
@@ -14,9 +6,6 @@
     <form method="post">
         {% csrf_token %}
         <input type="submit" value="Remove from Cart">
-    <a href="{% url 'cart:remove_from_cart' item.id %}">Remove</a>
+    <a href="{% url 'shoppingcart:remove_from_cart' item.id %}">Remove</a>
     </form>
 {% endblock %}
-
-</body>
-</html>

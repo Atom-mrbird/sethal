@@ -119,15 +119,25 @@
 						<span class="sale-label">Sale!</span>
 					</span>
 					<div class="shop_desc">
-						<h3><a href="#">aliquam volutp</a></h3>
-						<p>Lorem ipsum consectetuer adipiscing </p>
-						<span class="reducedfrom">$66.00</span>
-						<span class="actual">$12.00</span><br>
-						<ul class="buttons">
-							<li class="cart"><a href="">Add To Cart</a></li>
-							<li class="shop_btn"><a href="#">Read More</a></li>
-							<div class="clear"> </div>
-					    </ul>
+<form action='{% url "shoppingcart:product_list" %}' method="POST" class="form">{% csrf_token %}
+    
+    <input type="hidden" name="product_id" value="{{product.id}}"/>
+
+        {% if cart %}
+        <button type="submit" class="btn btn-link btn-sm" style="padding: 0px; cursor: pointer">Remove?</button>
+        {% else %} 
+     
+            {% if product in shoppingcart.product.all %}
+               <button type="submit" class="btn btn-link">Remove?</button>
+             {% else %}
+             <button type="submit" class="btn btn-success">Add to cart</button>
+             {% endif %}
+        
+        {% endif %}
+
+
+             
+    </form>
 				    </div>
 				</a></div>
 				<div class="col-md-3 shop_box"><a href="single.html">

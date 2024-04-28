@@ -12,6 +12,10 @@ class Product(models.Model):
 
     def __str__(self) -> str:
         return str(self.name)
+
+    def get_absolute_url(self):
+        return reverse("shoppingcart:product_list")
+
 """class Cart(models.Model):
     user = models.ForeignKey('user.CustomUser', on_delete=models.CASCADE)
     product = models.CharField(max_length=255)

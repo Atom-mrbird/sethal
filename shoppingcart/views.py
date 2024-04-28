@@ -1,23 +1,15 @@
 from rest_framework.views import APIView
 from rest_framework import status
 from rest_framework.response import Response
-
 from shoppingcart.serializers import ProductSerializer
 from shoppingcart.models import Product
 from django.shortcuts import redirect
-
 from shoppingcart.services import Cart
 from django.shortcuts import render, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-
-
 class ProductAPI(APIView):
-    """
-    Single API to handle product operations
-    """
     serializer_class = ProductSerializer
-
     def get(self, request, format=None):
         qs = Product.objects.all()
 
@@ -38,9 +30,6 @@ class ProductAPI(APIView):
 
 
 class CartAPI(APIView):
-    """
-    Single API to handle cart operations
-    """
 
     def get(self, request, format=None):
         cart = Cart(request)
@@ -76,7 +65,6 @@ class CartAPI(APIView):
 """@login_required
 def add_to_cart(request, product_id):
     cart_item = Cart.objects.filter(user=request.user, product=product_id).first()
-
     if cart_item:
         cart_item.quantity += 1
         cart_item.save()
@@ -84,8 +72,7 @@ def add_to_cart(request, product_id):
     else:
         Cart.objects.create(user=request.user, product=product_id)
         messages.success(request, "Item added to your cart.")
-
-    return redirect("shoppingcart:cart_detail")
+        return redirect("shoppingcart:cart_detail")
 
 @login_required
 def remove_from_cart(request, cart_item_id):
@@ -106,18 +93,4 @@ def cart_detail(request):
         "total_price": total_price,
     }
 
-    return render(request, "registration/cart_detail.html", context)
-
-@login_required
-def product_detail(request, product_id):
-    product = get_object_or_404(Product, id=product_id)
-
-    if request.method == "POST":
-        messages.success(request, f"{product.name} added to your cart.")
-        return redirect("shoppingcart:add_to_cart", product_id=product.id)
-
-    context = {
-        "product": product,
-    }
-
-    return render(request, "shop.html", context)"""
+    return render(request, "registration/cart_detail.html", context)"""
