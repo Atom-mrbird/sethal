@@ -2,9 +2,12 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import login, authenticate
 from .forms import AddressForm
 from user.forms import UserRegisterForm
-
+from shoppingcart.models import Product
 def ShopView(request):
-    return render(request, 'shop.html')
+    products = Product.objects.all()
+    return render(request, 'shop.html',context={
+        "products":products
+    })
 def AboutView(request):
     return render(request, 'team.html')
 def ContactView(request):
