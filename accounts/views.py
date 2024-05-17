@@ -1,11 +1,12 @@
+from django.contrib import messages
 from django.shortcuts import render, redirect
 from .forms import AddressForm
 from shoppingcart.models import Product
+
+
 def ShopView(request):
     products = Product.objects.all()
-    return render(request, 'shop.html',context={
-        "products":products
-    })
+    return render(request, 'shop.html', {'products':products})
 def AboutView(request):
     return render(request, 'team.html')
 def ContactView(request):

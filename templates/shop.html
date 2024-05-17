@@ -17,14 +17,14 @@
             $(".dropdown dt a").click(function() {
                 $(".dropdown dd ul").toggle();
             });
-                        
+
             $(".dropdown dd ul li a").click(function() {
                 var text = $(this).html();
                 $(".dropdown dt a span").html(text);
                 $(".dropdown dd ul").hide();
                 $("#result").html("Selected value is: " + getSelectedValue("sample"));
             });
-                        
+
             function getSelectedValue(id) {
                 return $("#" + id).find("dt a span.value").html();
             }
@@ -57,11 +57,11 @@
                                 <li><a href="{% url 'index'%}">Home</a></li>
 						    	<li class="current"><a href="{% url 'shop'%}">Shop</a></li>
 						    	<li><a href="{% url 'about'%}">About Us</a></li>
-								<li><a href="{% url 'contact'%}">Contact</a></li>						
+								<li><a href="{% url 'contact'%}">Contact</a></li>
 								<div class="clear"></div>
 							</ul>
 							<script type="text/javascript" src="{% static 'js/responsive-nav.js'%}'"></script>
-				    </div>							
+				    </div>
 	    		    <div class="clear"></div>
 	    	    </div>
 	            <div class="header_right">
@@ -74,11 +74,13 @@
 						  </div>
 						   <div class="clear"></div>
 						  <li class="list_img"><img src="../accounts/static/images/1.jpg" alt=""/></li>
-						  <li class="list_desc"><h4><a href="#"></a></h4><span class="actual"></span></li>
+                            <li class="list_desc"><h4><a href="#"></a></h4><span class="actual"></span></li>
 						  						  <div class="login_buttons">
                                   {% csrf_token %}
                                   {% if user.is_authenticated %}
-                                  <p>Hi {{ user.email }}!</p>
+                                  <p>Hi {{ user.email }}! You have {{ user.cartitem_set.count }} item(s) in your cart.</p>
+    <p>Total amount: {{ request.user.cartitem_set.aggregate }} items</p>
+                                      <a href="{% url 'shop' %}">View Cart</a>
 							 <p><a href="{% url 'password_change' %}">Password Change</a></p>
 <form action="{% url 'logout' %}" method="post">
   {% csrf_token %}
@@ -113,30 +115,35 @@
 			</div>
 			<div class="row">
 				{% for product in products %}
-    
+
 				<div class="col-md-3 shop_box"><a href="single.html">
-					
-					<img src="../accounts/static/images/pic9.jpg" class="img-responsive" alt=""/>
 					<span class="new-box">
 						<span class="new-label">New</span>
 					</span>
+                    <form method="post" enctype="multipart/form-data">
 					<div class="shop_desc">
 						<h3><a href="#">{{product.name}}</a></h3>
 						<span class="actual">${{product.price}}</span><br>
 						<span class="actual">{{product.description}}</span><br>
-                        <img src="{{product.image.url}}" class="img-responsive" alt=""/>
-
-						<ul class="buttons">
-							<li class="cart"><a href="#">Add To Cart</a></li>
-							<li class="shop_btn"><a href="#">Read More</a></li>
+                        {% if product.image %}
+                         <img src="{{product.image.url }}" class="img-thumbnail" alt="{{ product.name }}"/>
+                        {% else %}
+            <p>No image available</p>
+        {% endif %}
+                        <form action="{% url 'shoppingcart:add_to_cart' product.id %}" method="post">
+        {% csrf_token %}
+                            <ul class="buttons">
+							<li class="submitting"><a href="">Add To Cart</a></li>
 							<div class="clear"> </div>
 					    </ul>
+    </form>
 				    </div>
+                        </form>
 				</a>
 				</div>
 				{% endfor %}
 			</div>
-				
+
 		 </div>
 	   </div>
 	  </div>
@@ -152,11 +159,11 @@
 				    			<input type="submit" value="Go">
 				    		   </form>
 					        </div>
-		   					
+
 						</ul>
 					</div>
 				</div>
 			</div>
 		</div>
-</body>	
+</body>
 </html>
