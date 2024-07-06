@@ -114,16 +114,17 @@
 			</div>
 			<div class="row">
 				<div class="col-md-12 contact">
-				  <form method="post" action="contact-post.html">
+				  <form method="post" action="/contact/">
+                      {% csrf_token %}
 					<div class="to">
-                     	<input type="text" class="text" value="Name" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Name';}">
-					 	<input type="text" class="text" value="Email" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Email';}">
-					 	<input type="text" class="text" value="Subject" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Subject';}">
-					</div>
+                        <input type="text" name="name" placeholder="Your Name" required>
+                        <input type="email" name="email" placeholder="Your Email" required>
+                        <input type="text" name="subject" placeholder="Subject" required>
+                    </div>
 					<div class="text">
-	                   <textarea value="Message:" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Message';}">Message:</textarea>
-	                   <div class="form-submit">
-			           <input name="submit" type="submit" id="submit" value="Submit"><br>
+	                           <textarea name="message" placeholder="Your Message" required></textarea>
+        <button type="submit">Submit</button>
+                        <div class="form-submit">
 			           </div>
 	                </div>
 	                <div class="clear"></div>

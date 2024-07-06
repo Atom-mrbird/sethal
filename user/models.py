@@ -1,8 +1,11 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.utils.translation import gettext_lazy as _
-
+from django.contrib.auth.models import User
 from django.contrib.auth.base_user import BaseUserManager
+
+from sethal import settings
+
 
 class CustomUserManager(BaseUserManager):
 
@@ -41,3 +44,11 @@ class CustomUser(AbstractUser):
     
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)
+
+class Customer(models.Model):
+        user = models.OneToOneField(CustomUser, null=True, blank=True, on_delete=models.CASCADE)
+        name = models.CharField(max_length=200, null=True)
+        email = models.CharField(max_length=200)
+
+        def __str__(self):
+            return self.name

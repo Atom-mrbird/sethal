@@ -5,6 +5,11 @@
   <head>
   	<title>Sethal</title>
 	</head>
+  <script>
+        function redirectToPage() {
+            window.location.href = "{% url 'shoppingcart:checkout' %}";
+        }
+    </script>
 	<body>
 
 
@@ -13,7 +18,8 @@
   <form method="post">
     {% csrf_token %}
     {{ form.as_p }}
-    <button type="submit">Save</button>
+    <button type="submit" onclick="redirectToPage()">Save</button>
+
   </form>
 {% endblock %}
 	</body>
