@@ -1,17 +1,38 @@
-from django.contrib.auth.decorators import login_required
 from rest_framework.views import APIView
 from rest_framework import status
 from rest_framework.response import Response
 from shoppingcart.serializers import ProductSerializer
 from django.shortcuts import redirect
-from shoppingcart.services import cartData, guestOrder, Product
+from shoppingcart.services import cartData, guestOrder
 from django.shortcuts import render
-from django.contrib import messages
 from django.http import JsonResponse
 import json
 import datetime
 from accounts.models import Address
-from shoppingcart.models import Cart
+from shoppingcart.models import Product, Cart
+
+def add_to_cart(request, product_id):
+    if request.method == 'POST':
+        product = Product.objects.get(pk=product_id)
+        quantity = int(request.POST.get('quantity', 1))
+
+        cart_item, created = Cart.objects.get_or_create(product=product, user=request.user)
+        cart_item.quantity += quantity
+        cart_item.save()
+
+        # Get updated cart info
+        cart_items = Cart.objects.filter(user=request.user)
+        total_quantity = sum(item.quantity for item in cart_items)
+        total_price = sum(item.quantity * item.product.price for item in cart_items)
+
+        response_data = {
+            'total_quantity': total_quantity,
+            'total_price': total_price,
+        }
+
+        return JsonResponse(response_data)
+
+    return redirect('shop')
 
 class ProductAPI(APIView):
     serializer_class = ProductSerializer
@@ -67,29 +88,20 @@ class CartAPI(APIView):
             {"message": "cart updated"},
             status=status.HTTP_202_ACCEPTED)
 
-def add_to_cart(request, product_id):
-    product = Product.objects.get(pk=product_id)
-    if request.method == 'POST':
-        quantity = request.POST['quantity']
-        cart_item, created = Cart.objects.get_or_create(product=product, user=request.user)
-        cart_item.quantity += int(quantity)
-        cart_item.save()
-        messages.success(request, f"{quantity} {product.name}(s) added to your cart.")
-        return redirect('shop')
-    return redirect('shop')
+
+
 
 def view_cart(request):
     if not request.user.is_authenticated:
         return redirect('login')
     cart_items = Cart.objects.filter(user=request.user)
-    address = Address.objects.filter(user=request.user)
-    return render(request, 'registration/cartl.html', {'cart_items': cart_items, 'address': address})
-def cart(request):
-    data = cartData(request)
-    cartItems = data['cartItems']
-    order = data['order']
-    items = data['items']
-    context = {'items':items, 'order':order, 'cartItems':cartItems}
+    total_price = sum(item.quantity * item.product.price for item in cart_items)
+    address = Address.objects.filter(user=request.user).first()  # Assuming one address per user
+    context = {
+        'cart_items': cart_items,
+        'total_price': total_price,
+        'address': address,
+    }
     return render(request, 'registration/cartl.html', context)
 
 

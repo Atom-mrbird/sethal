@@ -10,7 +10,7 @@
 <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700,800' rel='stylesheet' type='text/css'>
 <script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
 <script src="{% static 'js/jquery.min.js'%}"></script>
-<script type="text/javascript">
+    <script type="text/javascript">
         $(document).ready(function() {
             $(".dropdown img.flag").addClass("flagvisibility");
 
@@ -31,16 +31,39 @@
 
             $(document).bind('click', function(e) {
                 var $clicked = $(e.target);
-                if (! $clicked.parents().hasClass("dropdown"))
+                if (!$clicked.parents().hasClass("dropdown"))
                     $(".dropdown dd ul").hide();
             });
-
 
             $("#flagSwitcher").click(function() {
                 $(".dropdown img.flag").toggleClass("flagvisibility");
             });
+
+            $('.add-to-cart-form').on('submit', function(event) {
+                event.preventDefault();
+                var form = $(this);
+                var url = form.attr('action');
+                var quantity = form.find('input[name="quantity"]').val();
+
+                $.ajax({
+                    type: 'POST',
+                    url: url,
+                    data: {
+                        'quantity': quantity,
+                        'csrfmiddlewaretoken': '{{ csrf_token }}',
+                    },
+                    success: function(response) {
+                        $('#cart-quantity').text(response.total_quantity);
+                        $('#cart-total').text(response.total_price.toFixed(2));
+                        alert('Product added to cart successfully!');
+                    },
+                    error: function(response) {
+                        alert('An error occurred while adding the product to the cart.');
+                    }
+                });
+            });
         });
-     </script>
+    </script>
 </head>
 <body>
 	<div class="header">
@@ -78,8 +101,8 @@
 						  						  <div class="login_buttons">
                                   {% csrf_token %}
                                   {% if user.is_authenticated %}
-                                  <p>Hi {{ user.email }}! You have {{ user.cartitem_set.count }} item(s) in your cart.</p>
-    <p>Total amount: {{ request.user.cartitem_set.aggregate }} items</p>
+<p>Hi {{ user.email }}! You have <span id="cart-quantity">{{ user.cartitem_set.count }}</span> item(s) in your cart.</p>
+                                        <p>Total amount: $<span id="cart-total">{{ request.user.cartitem_set.aggregate }}</span></p>
                                       <a href="{% url 'shoppingcart:view-cart' %}">View Cart</a>
 							 <p><a href="{% url 'password_change' %}">Password Change</a></p>
 <form action="{% url 'logout' %}" method="post">
@@ -126,14 +149,15 @@
 						<span class="actual">${{product.price}}</span><br>
 						<span class="actual">{{product.description}}</span><br>
                         {% if product.image %}
-                         <img src="{{product.image.url }}" alt="{{ product.name }}"/>
+                         <img src="{{ product.image.url }}" alt="{{ product.name }}"/>
                         {% else %}
             <p>No image available</p>
         {% endif %}
-                        <form action="{% url 'shoppingcart:add_to_cart' product.id %}" method="post">
+                        <form class="add-to-cart-form" action="{% url 'shoppingcart:add_to_cart' product.id %}" method="post">
         {% csrf_token %}
-                            <ul class="buttons">
-							<li class="submitting"><a href="">Add To Cart</a></li>
+                            <input type="hidden" name="quantity" value="1">
+                                <ul class="buttons">
+                                    <li class="submitting"><button type="submit">Add To Cart</button></li>
 							<div class="clear"> </div>
 					    </ul>
     </form>

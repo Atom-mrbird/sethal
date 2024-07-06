@@ -17,6 +17,9 @@ class Product(models.Model):
     modified_at = models.DateTimeField(auto_now=True)
     image = models.ImageField(upload_to='uploads/', blank=True, null=True)
 
+    def get_absolute_url(self):
+        return reverse("shop")
+
     class Meta:
         ordering = ('-created_at',)
 
@@ -52,9 +55,6 @@ class Product(models.Model):
 
     def __str__(self) -> str:
         return str(self.name)
-
-    def get_absolute_url(self):
-        return reverse("shop")
 
 class Cart(models.Model):
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
