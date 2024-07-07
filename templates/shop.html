@@ -143,13 +143,12 @@
 					<span class="new-box">
 						<span class="new-label">New</span>
 					</span>
-                    <form method="post" enctype="multipart/form-data">
 					<div class="shop_desc">
 						<h3><a href="#">{{product.name}}</a></h3>
 						<span class="actual">${{product.price}}</span><br>
 						<span class="actual">{{product.description}}</span><br>
                         {% if product.image %}
-                         <img src="{{ product.image.url }}" alt="{{ product.name }}"/>
+                         <img src="{{ product.image.url }}" width="200" height="120" alt="{{ product.name }}"/>
                         {% else %}
             <p>No image available</p>
         {% endif %}
@@ -162,7 +161,6 @@
 					    </ul>
     </form>
 				    </div>
-                        </form>
 				</a>
 				</div>
 				{% endfor %}

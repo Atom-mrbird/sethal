@@ -15,7 +15,6 @@ def add_to_cart(request, product_id):
     if request.method == 'POST':
         product = Product.objects.get(pk=product_id)
         quantity = int(request.POST.get('quantity', 1))
-
         cart_item, created = Cart.objects.get_or_create(product=product, user=request.user)
         cart_item.quantity += quantity
         cart_item.save()
@@ -24,7 +23,6 @@ def add_to_cart(request, product_id):
         cart_items = Cart.objects.filter(user=request.user)
         total_quantity = sum(item.quantity for item in cart_items)
         total_price = sum(item.quantity * item.product.price for item in cart_items)
-
         response_data = {
             'total_quantity': total_quantity,
             'total_price': total_price,
