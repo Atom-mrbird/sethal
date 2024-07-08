@@ -10,6 +10,7 @@ import json
 import datetime
 from accounts.models import Address
 from shoppingcart.models import Product, Cart
+from django.shortcuts import get_object_or_404
 
 def add_to_cart(request, product_id):
     if request.method == 'POST':
@@ -31,6 +32,39 @@ def add_to_cart(request, product_id):
         return JsonResponse(response_data)
 
     return redirect('shop')
+
+
+from django.http import JsonResponse
+from django.views.decorators.http import require_POST
+from shoppingcart.models import Product, Cart
+import json
+
+
+@require_POST
+def delete_from_cart(request, product_id):
+    try:
+        product = Product.objects.get(pk=product_id)
+        cart_item = Cart.objects.filter(product=product, user=request.user).first()
+
+        if cart_item:
+            cart_item.delete()
+
+        # Get updated cart info
+        cart_items = Cart.objects.filter(user=request.user)
+        total_quantity = sum(item.quantity for item in cart_items)
+        total_price = sum(item.quantity * item.product.price for item in cart_items)
+        response_data = {
+            'total_quantity': total_quantity,
+            'total_price': total_price,
+        }
+
+        return JsonResponse(response_data, status=200)
+
+    except Product.DoesNotExist:
+        return JsonResponse({'error': 'Product not found'}, status=404)
+
+    except Exception as e:
+        return JsonResponse({'error': str(e)}, status=500)
 
 class ProductAPI(APIView):
     serializer_class = ProductSerializer
@@ -102,7 +136,6 @@ def view_cart(request):
     }
     return render(request, 'registration/cartl.html', context)
 
-
 def checkout(request):
     data = cartData(request)
 
@@ -112,32 +145,6 @@ def checkout(request):
 
     context = {'items': items, 'order': order, 'cartItems': cartItems}
     return render(request, 'checkout.html', context)
-
-
-def updateItem(request):
-	data = json.loads(request.body)
-	productId = data['productId']
-	action = data['action']
-	print('Action:', action)
-	print('Product:', productId)
-
-	customer = request.user.customer
-	product = Product.objects.get(id=productId)
-	order, created = Cart.objects.get_or_create(customer=customer, complete=False)
-
-	orderItem, created = Cart.objects.get_or_create(order=order, product=product)
-
-	if action == 'add':
-		orderItem.quantity = (orderItem.quantity + 1)
-	elif action == 'remove':
-		orderItem.quantity = (orderItem.quantity - 1)
-
-	orderItem.save()
-
-	if orderItem.quantity <= 0:
-		orderItem.delete()
-
-	return JsonResponse('Item was added', safe=False)
 
 def processOrder(request):
 	transaction_id = datetime.datetime.now().timestamp()

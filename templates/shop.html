@@ -53,9 +53,9 @@
                         'csrfmiddlewaretoken': '{{ csrf_token }}',
                     },
                     success: function(response) {
-                        $('#cart-quantity').text(response.total_quantity);
+                        $('#cart-quantity').text(response.total_price);
                         $('#cart-total').text(response.total_price.toFixed(2));
-                        alert('Product added to cart successfully!');
+                        alert('Product deleted to cart successfully!');
                     },
                     error: function(response) {
                         alert('An error occurred while adding the product to the cart.');

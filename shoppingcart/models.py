@@ -11,7 +11,7 @@ from PIL import Image
 class Product(models.Model):
     name = models.CharField(max_length=150)
     description = models.TextField(blank=True)
-    price = models.DecimalField(max_digits=10, decimal_places=2)
+    price = models.DecimalField(max_digits=10, decimal_places=1)
     is_available = models.BooleanField(default=True)
     created_at = models.DateTimeField(auto_now_add=True)
     modified_at = models.DateTimeField(auto_now=True)
@@ -59,7 +59,7 @@ class Product(models.Model):
 class Cart(models.Model):
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
     product = models.ForeignKey(Product, on_delete=models.CASCADE)  # Changed to ForeignKey
-    quantity = models.IntegerField(default=1)
+    quantity = models.IntegerField(default=0)
 
     def __str__(self):
         return f"{self.quantity} x {self.product}"
