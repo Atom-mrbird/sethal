@@ -12,11 +12,13 @@
 					{% endif %}
     
     </div>
-                
-					<div id="shipping-info">
+            <tbody>
+                            <tr>
+                                <td colspan="3"><strong>Total</strong></td>
+                                <td><strong>${{ total_price }}</strong></td>
+                            </tr>
+                        </tbody>
 						<hr>
-						<p>Details:</p>
-                        
 					<input id="form-button" class="btn btn-success btn-block" type="submit" value="Continue To Checkout">
 				</form>
                 </form>
@@ -35,19 +37,14 @@
 				<a  class="btn btn-outline-dark" href="{% url 'shoppingcart:view-cart' %}">&#x2190; Back to Cart</a>
 				<hr>
 				<h3>Order Summary</h3>
-				<hr>
-				{% for item in items %}
-				<div class="cart-row">
-					<div style="flex:2"><img class="row-image" src="{{item.product.imageURL}}"></div>
-					<div style="flex:2"><p>{{item.product.name}}</p></div>
-					<div style="flex:1"><p>${{item.product.price|floatformat:2}}</p></div>
-					<div style="flex:1"><p>x{{item.quantity}}</p></div>
-				</div>
-				{% endfor %}
-				<h5>Items:   {{order.get_cart_items}}</h5>
-				<h5>Total:   ${{order.get_cart_total|floatformat:2}}</h5>
+            <tbody>
+                            <tr>
+                                <td colspan="3"><strong>Total</strong></td>
+                                <td><strong>${{ total_price }}</strong></td>
+                            </tr>
+                        </tbody>
+            
 			</div>
-		</div>
 	</div>
     
 <script type="application/javascript" src="https://js.stripe.com/v3/"></script>
@@ -134,4 +131,5 @@
         return false
     }
 </script>
+     </div>
 {% endblock %}

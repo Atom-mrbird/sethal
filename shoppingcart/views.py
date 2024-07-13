@@ -1,16 +1,16 @@
 from rest_framework.views import APIView
 from rest_framework import status
 from rest_framework.response import Response
+
 from shoppingcart.serializers import ProductSerializer
 from django.shortcuts import redirect
-from shoppingcart.services import cartData, guestOrder
+from shoppingcart.services import guestOrder
 from django.shortcuts import render
 from django.http import JsonResponse
 import json
 import datetime
 from accounts.models import Address
 from shoppingcart.models import Product, Cart
-from django.shortcuts import get_object_or_404
 
 def add_to_cart(request, product_id):
     if request.method == 'POST':
@@ -32,16 +32,7 @@ def add_to_cart(request, product_id):
         return JsonResponse(response_data)
 
     return redirect('shop')
-
-
-from django.http import JsonResponse
-from django.views.decorators.http import require_POST
-from shoppingcart.models import Product, Cart
-import json
-
-
-@require_POST
-def delete_from_cart(request, product_id):
+def remove(request, product_id):
     try:
         product = Product.objects.get(pk=product_id)
         cart_item = Cart.objects.filter(product=product, user=request.user).first()
@@ -137,13 +128,16 @@ def view_cart(request):
     return render(request, 'registration/cartl.html', context)
 
 def checkout(request):
-    data = cartData(request)
-
-    cartItems = data['cartItems']
-    order = data['order']
-    items = data['items']
-
-    context = {'items': items, 'order': order, 'cartItems': cartItems}
+    if not request.user.is_authenticated:
+        return redirect('login')
+    cart_items = Cart.objects.filter(user=request.user)
+    total_price = sum(item.quantity * item.product.price for item in cart_items)
+    address = Address.objects.filter(user=request.user).first()
+    context = {
+        'cart_items': cart_items,
+        'total_price': total_price,
+        'address': address,
+    }
     return render(request, 'checkout.html', context)
 
 def processOrder(request):

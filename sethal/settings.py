@@ -135,6 +135,8 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 LOGIN_REDIRECT_URL = "index"  # new
 LOGOUT_REDIRECT_URL = "index"  # new
 
+RECAPTCHA_PUBLIC_KEY = '6LfrYg8qAAAAAAHQr53ZruBl-S-aHZUfaO3OtW0T'
+RECAPTCHA_PRIVATE_KEY = '6LfrYg8qAAAAAAivenp6eciAk7j6dk1_xx5etQ3j'
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 

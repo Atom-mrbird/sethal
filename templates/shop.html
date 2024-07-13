@@ -160,6 +160,14 @@
 							<div class="clear"> </div>
 					    </ul>
     </form>
+                       <form class="add-to-cart-form" action="{% url 'shoppingcart:remove' product.id %}" method="post">
+        {% csrf_token %}
+                            <input type="hidden" name="quantity" value="1">
+                                <ul class="buttons">
+                                    <li class="submitting"><button type="submit">Remove</button></li>
+							<div class="clear"> </div>
+					    </ul>
+    </form>
 				    </div>
 				</a>
 				</div>

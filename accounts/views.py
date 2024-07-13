@@ -1,9 +1,8 @@
 from django.contrib.auth.decorators import login_required
 from django.db import IntegrityError
-from django.http import HttpResponse
-from django.shortcuts import render, redirect
-
-import accounts
+from django.shortcuts import redirect
+from django.shortcuts import render, HttpResponse
+from accounts.forms import ContactForm
 from accounts.models import Contact
 from .forms import AddressForm
 from shoppingcart.models import Product
@@ -22,14 +21,12 @@ def ContactView(request):
 
         if not name or not email or not subject or not message:
             return HttpResponse("All fields are required.", status=400)
-
         try:
             Contact.objects.create(name=name, email=email, subject=subject, message=message)
             return redirect('/success/')
         except IntegrityError as e:
             return HttpResponse(f"Integrity Error: {e}", status=500)
     return render(request, 'contact.html')
-
 
 @login_required
 def addressview(request):
