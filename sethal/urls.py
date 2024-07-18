@@ -27,6 +27,7 @@ urlpatterns = [
     path('accounts/', include("django.contrib.auth.urls")),
     path("user/", include("user.urls")),
     path("contact/", ContactView, name="contact"),
+    path('contact/success/', TemplateView.as_view(template_name='contact_success.html'), name='contact_success'),
 
     path("", TemplateView.as_view(template_name="index.html"), name="index"),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -1,7 +1,9 @@
+from django_recaptcha.widgets import ReCaptchaV2Checkbox
+
 from .models import Address
 from django import forms
 from django_recaptcha.fields import ReCaptchaField
-from django_recaptcha.widgets import ReCaptchaV2Checkbox
+from django import forms
 
 class LoginForm(forms.Form):
     email = forms.EmailField(max_length=120, help_text='Required. Enter a valid email address.', widget=forms.EmailInput)
@@ -12,7 +14,9 @@ class AddressForm(forms.ModelForm):
         model = Address
         fields = ['address', 'city', 'state', 'zip_code', 'country', 'phone_number']
 class ContactForm(forms.Form):
-    name = forms.CharField(max_length=250)
+    name = forms.CharField(max_length=100)
     email = forms.EmailField()
-    subject = forms.CharField(max_length=250)
+    subject = forms.CharField(max_length=100)
     message = forms.CharField(widget=forms.Textarea)
+
+

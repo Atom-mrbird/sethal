@@ -14,19 +14,26 @@ def AboutView(request):
     return render(request, 'team.html')
 def ContactView(request):
     if request.method == 'POST':
-        name = request.POST.get('name')
-        email = request.POST.get('email')
-        subject = request.POST.get('subject')
-        message = request.POST.get('message')
+        form = ContactForm(request.POST)
+        if form.is_valid():
+            # Process the form data
+            name = form.cleaned_data['name']
+            email = form.cleaned_data['email']
+            subject = form.cleaned_data['subject']
+            message = form.cleaned_data['message']
 
-        if not name or not email or not subject or not message:
-            return HttpResponse("All fields are required.", status=400)
-        try:
+            # Save the contact message to the database
             Contact.objects.create(name=name, email=email, subject=subject, message=message)
-            return redirect('/success/')
-        except IntegrityError as e:
-            return HttpResponse(f"Integrity Error: {e}", status=500)
-    return render(request, 'contact.html')
+
+            # Redirect to a success page
+            return redirect('index')
+        else:
+            return HttpResponse("Invalid reCAPTCHA. Please try again.", status=400)
+    else:
+        form = ContactForm()
+
+    return render(request, 'contact.html', {'form': form})
+
 
 @login_required
 def addressview(request):
